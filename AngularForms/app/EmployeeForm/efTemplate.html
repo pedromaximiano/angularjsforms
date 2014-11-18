@@ -1,9 +1,93 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-</head>
-<body>
+﻿<form class="form-horizontal" role="form" ng-submit="submitForm()">
+    <div class="row">
+        <fieldset class="col-sm-8">
+            <legend>Basic Information</legend>
+            <div class="form-group">
+                <label for="employeeName" class="control-label col-sm-3">Name</label>
+                <div class="col-sm-5">
+                    <input type="text" name="employeeName" class="form-control" ng-model="employee.fullName" />
+                </div>
+            </div>
 
-</body>
-</html>
+            <div class="form-group">
+                <label for="employeeNotes" class="control-label col-sm-3">Notes</label>
+                <div class="col-sm-5">
+                    <textarea name="employeeNotes" class="form-control" ng-model="employee.notes"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="employeeDepartment" class="control-label col-sm-3">Department</label>
+                <div class="col-sm-5">
+                    <select name="employeeDepartment" class="form-control" ng-model="employee.department" ng-options="dept for dept in departments"></select>
+                </div>
+            </div>
+        </fieldset>
+        <div class="col-sm-4">
+            <span><b>Name: </b>{{employee.fullName}}</span><br />
+            <span><b>Notes: </b>{{employee.notes}}</span><br />
+            <span><b>Department: </b>{{employee.department}}</span><br />
+            <span><b>Payroll Type: </b>{{employee.payrollType}}</span><br />
+            <div ng-show="(employee.perkCar || employee.perkStock || employee.perkSixWeeks)" id="divPerks">
+                <span id="spanPerks">
+                    <b>Perks: </b>
+                    <ul>
+                        <li ng-show="employee.perkCar">
+                            {{employee.perkCar ? "Car" : ""}}
+                        </li>
+                        <li ng-show="employee.perkStock">
+                            {{employee.perkStock ? "Stocks" : ""}}
+                        </li>
+                        <li ng-show="employee.perkSixWeeks">
+                            {{employee.perkSixWeeks ? "Six Weeks Vacation" : ""}}
+                        </li>
+                    </ul>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <fieldset>
+        <legend>Perks</legend>
+        <div class="form-group">
+            <span class="control-label col-sm-3"></span>
+            <div class="col-sm-9">
+                <div class="checkbox">
+                    <label><input type="checkbox" value="perkCar" ng-model="employee.perkCar" />Company Car</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="perkStock" ng-model="employee.perkStock" />Stocks</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="perkSixWeeks" ng-model="employee.perkSixWeeks" />Six Weeks Vacation</label>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Payroll Type</legend>
+        <div class="form-group">
+            <span class="control-label col-sm-3"><b></b></span>
+            <div class="col-sm-9">
+                <div class="radio">
+                    <label><input type="radio" name="payrolltype" value="w2" ng-model="employee.payrollType" />W-2</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="payrolltype" value="ten99" ng-model="employee.payrollType" />1099</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="payrolltype" value="none" ng-model="employee.payrollType" />None</label>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend></legend>
+        <div>
+            <input type="submit" class="btn btn-primary col-sm-2" value="Submit" />
+        </div>
+    </fieldset>
+
+</form>
