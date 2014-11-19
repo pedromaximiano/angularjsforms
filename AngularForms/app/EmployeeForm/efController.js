@@ -1,6 +1,13 @@
 ﻿angularFormsApp.controller("efController",
-    function efController($scope, efService) {
-        $scope.employee = efService.employee;
+    function efController($scope, $window, $routeParams, $modalInstance, dataService) {
+        
+        if ($routeParams.id) {
+            $scope.employee = dataService.getEmployee($routeParams.id);
+        } else {
+            $scope.employee = { id: 0 };
+        }
+
+        $scope.editableEmployee = angular.copy($scope.employee);
         $scope.departments = [
             "Administration",
             "Marketing",
@@ -8,7 +15,25 @@
             "Engineering"
         ];
 
-        $scope.submitForm = function() {
+        $scope.submitForm = function () {
+            if ($scope.editableEmployee.id === 0) {
+                dataService.insertEmployee($scope.editableEmployee);
+            } else {
+                dataService.updateEmployee($scope.editableEmployee);
+            }
+            
+            $scope.employee = angular.copy($scope.editableEmployee);
+        };
 
+        $scope.cancelForm = function () {
+            if (!angular.equals($scope.employee, $scope.editableEmployee)) {
+                if (confirm("Changes were made. Please confirm cancel operation!")) {
+                    $window.history.back();
+                }
+            }
+            else {
+                //$window.history.back();
+                $modalInstance.dismiss();
+            }
         };
     });
