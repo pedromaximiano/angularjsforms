@@ -1,6 +1,6 @@
 ﻿angularFormsApp.controller("efController",
-    function efController($scope, $window, $routeParams, $modalInstance, dataService) {
-        
+    function efController($scope, $window, $routeParams, dataService) {
+
         if ($routeParams.id) {
             $scope.employee = dataService.getEmployee($routeParams.id);
         } else {
@@ -15,13 +15,17 @@
             "Engineering"
         ];
 
+        $scope.isValidName = function () {
+            return false;
+        };
+
         $scope.submitForm = function () {
             if ($scope.editableEmployee.id === 0) {
                 dataService.insertEmployee($scope.editableEmployee);
             } else {
                 dataService.updateEmployee($scope.editableEmployee);
             }
-            
+
             $scope.employee = angular.copy($scope.editableEmployee);
         };
 
@@ -32,8 +36,7 @@
                 }
             }
             else {
-                //$window.history.back();
-                $modalInstance.dismiss();
+                $window.history.back();
             }
         };
     });

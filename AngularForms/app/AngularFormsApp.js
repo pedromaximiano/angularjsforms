@@ -23,11 +23,7 @@ angularFormsApp.config(function ($routeProvider) {
 angularFormsApp.controller("homeController",
     function ($scope, $location, $modal, dataService) {
         $scope.showNewEmployeeForm = function () {
-            //$location.path("/newEmployeeForm");
-            $modal.open({                
-                templateUrl: "/app/EmployeeForm/efTemplate.html",
-                controller: "efController"
-            });
+            $location.path("/newEmployeeForm/");
         };
         $scope.showUpdateEmployeeForm = function (id) {
             $location.path("/newEmployeeForm/" + id);

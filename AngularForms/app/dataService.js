@@ -4,8 +4,10 @@
             if (+id === 123) {
                 return {
                     fullName: "Milton Waddams",
+                    email: "milton.waddams@this.com",
                     notes: "The ideal employee",
                     department: "Administration",
+                    dateHired: '2012-03-01',
                     perkCar: false,
                     perkStock: true,
                     perkSixWeeks: false,

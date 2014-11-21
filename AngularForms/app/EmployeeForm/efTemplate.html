@@ -1,104 +1,113 @@
-﻿<div class="modal-header">
-    <h1>Add New Eployee</h1>
-</div>  
-
-<div class="modal-body">
-    <form class="form-horizontal" role="form">
-        <div class="row">
-            <fieldset class="col-sm-8">
-                <legend>Basic Information</legend>
-                <div class="form-group">
-                    <label for="employeeName" class="control-label col-sm-3">Name</label>
-                    <div class="col-sm-5">
-                        <input type="text" name="employeeName" class="form-control" ng-model="editableEmployee.fullName" />
-                    </div>
+﻿<form class="form-horizontal" role="form" name="employeeForm" novalidate>
+    <div class="row">
+        <fieldset class="col-sm-8">
+            <legend>Basic Information</legend>
+            <div class="form-group" show-errors>
+                <label for="employeeName" class="control-label col-sm-3">Name</label>
+                <div class="col-sm-5">
+                    <input type="text" id="employeeName" name="employeeName" class="form-control"
+                           ng-model="editableEmployee.fullName" ng-required="true" ng-pattern="/^A/" /> 
+                    <span class="help-block" 
+                          ng-if="employeeForm.employeeName.$error.required">Full name is required</span>
+                    <span class="help-block" 
+                          ng-if="employeeForm.employeeName.$error.pattern">Full name must start with 'A'</span>
                 </div>
-
-                <div class="form-group">
-                    <label for="employeeNotes" class="control-label col-sm-3">Notes</label>
-                    <div class="col-sm-5">
-                        <textarea name="employeeNotes" class="form-control" ng-model="editableEmployee.notes"></textarea>
-                    </div>
+            </div>
+            
+            <div class="form-group" show-errors>
+                <label for="employeeEmail" class="control-label col-sm-3">Email</label>
+                <div class="col-sm-5">
+                    <input type="email" id="employeeEmail" name="employeeEmail" class="form-control" ng-model="editableEmployee.email" ng-required="true" />
+                    <span class="help-block hide">A valid email is required</span>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="employeeDepartment" class="control-label col-sm-3">Department</label>
-                    <div class="col-sm-5">
-                        <select name="employeeDepartment" class="form-control" ng-model="editableEmployee.department" ng-options="dept for dept in departments"></select>
-                    </div>
+            <div class="form-group">
+                <label for="employeeNotes" class="control-label col-sm-3">Notes</label>
+                <div class="col-sm-5">
+                    <textarea name="employeeNotes" class="form-control" ng-model="editableEmployee.notes"></textarea>
                 </div>
-            </fieldset>
-            <div class="col-sm-4">
-                <span><b>Name: </b>{{employee.fullName}}</span><br />
-                <span><b>Notes: </b>{{employee.notes}}</span><br />
-                <span><b>Department: </b>{{employee.department}}</span><br />
-                <span><b>Payroll Type: </b>{{employee.payrollType}}</span><br />
-                <div ng-show="(employee.perkCar || employee.perkStock || employee.perkSixWeeks)" id="divPerks">
-                    <span id="spanPerks">
-                        <b>Perks: </b>
-                        <ul>
-                            <li ng-show="employee.perkCar">
-                                {{employee.perkCar ? "Car" : ""}}
-                            </li>
-                            <li ng-show="employee.perkStock">
-                                {{employee.perkStock ? "Stocks" : ""}}
-                            </li>
-                            <li ng-show="employee.perkSixWeeks">
-                                {{employee.perkSixWeeks ? "Six Weeks Vacation" : ""}}
-                            </li>
-                        </ul>
-                    </span>
+            </div>
+
+            <div class="form-group">
+                <label for="employeeDepartment" class="control-label col-sm-3">Department</label>
+                <div class="col-sm-5">
+                    <select name="employeeDepartment" class="form-control" ng-model="editableEmployee.department" ng-options="dept for dept in departments"></select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="dateHired" class="col-sm-3 control-label">Date Hired</label>
+                <div class="col-sm-9">
+                    <datepicker id="dateHired" ng-model="editableEmployee.dateHired"></datepicker>
+                </div>
+            </div>
+        </fieldset>
+        <div class="col-sm-4">
+            <span><b>Name: </b>{{employee.fullName}}</span><br />
+            <span><b>e-mail: </b>{{employee.email}}</span><br />
+            <span><b>Notes: </b>{{employee.notes}}</span><br />
+            <span><b>Department: </b>{{employee.department}}</span><br />
+            <span><b>Date Hired: </b>{{employee.dateHired | date: 'yyyy-MM-dd'}}</span><br />
+            <span><b>Payroll Type: </b>{{employee.payrollType}}</span><br />
+            <div ng-show="(employee.perkCar || employee.perkStock || employee.perkSixWeeks)" id="divPerks">
+                <span id="spanPerks">
+                    <b>Perks: </b>
+                    <ul>
+                        <li ng-show="employee.perkCar">
+                            {{employee.perkCar ? "Car" : ""}}
+                        </li>
+                        <li ng-show="employee.perkStock">
+                            {{employee.perkStock ? "Stocks" : ""}}
+                        </li>
+                        <li ng-show="employee.perkSixWeeks">
+                            {{employee.perkSixWeeks ? "Six Weeks Vacation" : ""}}
+                        </li>
+                    </ul>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <fieldset>
+        <legend>Perks</legend>
+        <div class="form-group">
+            <span class="control-label col-sm-3"></span>
+            <div class="col-sm-9">
+                <div class="checkbox">
+                    <label><input type="checkbox" value="perkCar" ng-model="editableEmployee.perkCar" />Company Car</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="perkStock" ng-model="editableEmployee.perkStock" />Stocks</label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" value="perkSixWeeks" ng-model="editableEmployee.perkSixWeeks" />Six Weeks Vacation</label>
                 </div>
             </div>
         </div>
+    </fieldset>
 
-        <fieldset>
-            <legend>Perks</legend>
-            <div class="form-group">
-                <span class="control-label col-sm-3"></span>
-                <div class="col-sm-9">
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="perkCar" ng-model="editableEmployee.perkCar" />Company Car</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="perkStock" ng-model="editableEmployee.perkStock" />Stocks</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="perkSixWeeks" ng-model="editableEmployee.perkSixWeeks" />Six Weeks Vacation</label>
-                    </div>
+    <fieldset>
+        <legend>Payroll Type</legend>
+        <div class="form-group">
+            <span class="control-label col-sm-3"><b></b></span>
+            <div class="col-sm-9">
+                <div class="radio">
+                    <label><input type="radio" name="payrolltype" value="w2" ng-model="editableEmployee.payrollType" />W-2</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="payrolltype" value="ten99" ng-model="editableEmployee.payrollType" />1099</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="payrolltype" value="none" ng-model="editableEmployee.payrollType" />None</label>
                 </div>
             </div>
-        </fieldset>
+        </div>
+    </fieldset>
 
-        <fieldset>
-            <legend>Payroll Type</legend>
-            <div class="form-group">
-                <span class="control-label col-sm-3"><b></b></span>
-                <div class="col-sm-9">
-                    <div class="radio">
-                        <label><input type="radio" name="payrolltype" value="w2" ng-model="editableEmployee.payrollType" />W-2</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="payrolltype" value="ten99" ng-model="editableEmployee.payrollType" />1099</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="payrolltype" value="none" ng-model="editableEmployee.payrollType" />None</label>
-                    </div>
-                </div>
-            </div>
-        </fieldset>
+</form>
 
-        <!--<fieldset>
-            <legend></legend>
-            <div>
-                <input type="submit" class="btn btn-primary col-sm-1" value="Submit" />
-                <input type="button" class="btn btn-default col-sm-offset-1 col-sm-1" value="Cancel" ng-click="cancelForm()" />
-            </div>
-        </fieldset>-->
-
-    </form>
-</div>
 <div class="modal-footer">
     <input type="submit" class="btn btn-primary" value="Submit" ng-click="submitForm()" />
-    <input type="button" class="btn btn-default" value="Cancel" ng-click="cancelForm()" />    
+    <input type="button" class="btn btn-default" value="Cancel" ng-click="cancelForm()" />
 </div>
